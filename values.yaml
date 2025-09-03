@@ -8,23 +8,24 @@ image:
 ergo:
   node:
     mining: false
-    extraIndex: false
-    stateType: "digest"
-    blocksToKeep: 1440
+    extraIndex: true
+    stateType: "utxo"
+    verifyTransactions: true
+    blocksToKeep: -1
     utxo:
-      utxoBootstrap: true
+      utxoBootstrap: false
       storingUtxoSnapshots: 2
       p2pUtxoSnapshots: 2
-      genesisId: "mainnet-6.0.1"
     nipopow:
-      nipopowBootstrap: true
+      nipopowBootstrap: false
       p2pNipopows: 2
-      genesisId: "mainnet-6.0.1"
 
 scorex:
   restApi:
     publicUrl: "http://example.com:9053"
     apiKeyHash: "324dcf027dd4a30a932c441f365a25e86b173defa4b8e58948253471b81b72cf"
+    cors:
+      - "*"
   network:
     declaredAddress: "127.0.0.1:9030"
     nodeName: "k8s-ergo-node"
@@ -41,6 +42,6 @@ service:
 
 persistence:
   enabled: true
-  size: 10Gi
+  size: 50Gi
   accessModes:
     - ReadWriteOnce

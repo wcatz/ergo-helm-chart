@@ -10,21 +10,19 @@ data:
       node {
         mining = {{ .Values.ergo.node.mining }}
         extraIndex = {{ .Values.ergo.node.extraIndex }}
-
         stateType = "{{ .Values.ergo.node.stateType }}"
+        verifyTransactions = {{ .Values.ergo.node.verifyTransactions }}
         blocksToKeep = {{ .Values.ergo.node.blocksToKeep }}
 
         utxo {
           utxoBootstrap = {{ .Values.ergo.node.utxo.utxoBootstrap }}
           storingUtxoSnapshots = {{ .Values.ergo.node.utxo.storingUtxoSnapshots }}
           p2pUtxoSnapshots = {{ .Values.ergo.node.utxo.p2pUtxoSnapshots }}
-          genesisId = "{{ .Values.ergo.node.utxo.genesisId }}"
         }
 
         nipopow {
           nipopowBootstrap = {{ .Values.ergo.node.nipopow.nipopowBootstrap }}
           p2pNipopows = {{ .Values.ergo.node.nipopow.p2pNipopows }}
-          genesisId = "{{ .Values.ergo.node.nipopow.genesisId }}"
         }
       }
     }
@@ -33,10 +31,19 @@ data:
       restApi {
         publicUrl = "{{ .Values.scorex.restApi.publicUrl }}"
         apiKeyHash = "{{ .Values.scorex.restApi.apiKeyHash }}"
+        {{- if .Values.scorex.restApi.cors }}
+        cors = [
+        {{- range $index, $origin := .Values.scorex.restApi.cors }}
+          "{{ $origin }}"{{- if not (eq (add1 $index) (len $.Values.scorex.restApi.cors)) }},{{ end }}
+        {{- end }}
+        ]
+        {{- end }}
       }
 
       network {
+        {{- if .Values.scorex.network.declaredAddress }}
         declaredAddress = "{{ .Values.scorex.network.declaredAddress }}"
+        {{- end }}
         nodeName = "{{ .Values.scorex.network.nodeName }}"
         knownPeers = [
         {{- range $index, $peer := .Values.scorex.network.knownPeers }}
