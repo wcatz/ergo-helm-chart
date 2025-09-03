@@ -1,0 +1,46 @@
+replicaCount: 1
+
+image:
+  repository: ergoplatform/ergo
+  tag: latest
+  pullPolicy: IfNotPresent
+
+ergo:
+  node:
+    mining: false
+    extraIndex: false
+    stateType: "digest"
+    blocksToKeep: 1440
+    utxo:
+      utxoBootstrap: true
+      storingUtxoSnapshots: 2
+      p2pUtxoSnapshots: 2
+      genesisId: "mainnet-6.0.1"
+    nipopow:
+      nipopowBootstrap: true
+      p2pNipopows: 2
+      genesisId: "mainnet-6.0.1"
+
+scorex:
+  restApi:
+    publicUrl: "http://example.com:9053"
+    apiKeyHash: "324dcf027dd4a30a932c441f365a25e86b173defa4b8e58948253471b81b72cf"
+  network:
+    declaredAddress: "127.0.0.1:9030"
+    nodeName: "k8s-ergo-node"
+    knownPeers:
+      - "51.75.147.1:9020"
+      - "141.95.124.98:29031"
+      - "50.112.210.198:9030"
+      - "54.38.153.112:29031"
+
+service:
+  type: NodePort
+  apiPort: 9053
+  p2pPort: 9030
+
+persistence:
+  enabled: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce

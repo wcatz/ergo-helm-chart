@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "ergo.fullname" . }}-config
+  labels:
+    {{- include "ergo.labels" . | nindent 4 }}
+data:
+  ergo.conf: |
+    ergo {
+      node {
+        mining = {{ .Values.ergo.node.mining }}
+        extraIndex = {{ .Values.ergo.node.extraIndex }}
+
+        stateType = "{{ .Values.ergo.node.stateType }}"
+        blocksToKeep = {{ .Values.ergo.node.blocksToKeep }}
+
+        utxo {
+          utxoBootstrap = {{ .Values.ergo.node.utxo.utxoBootstrap }}
+          storingUtxoSnapshots = {{ .Values.ergo.node.utxo.storingUtxoSnapshots }}
+          p2pUtxoSnapshots = {{ .Values.ergo.node.utxo.p2pUtxoSnapshots }}
+          genesisId = "{{ .Values.ergo.node.utxo.genesisId }}"
+        }
+
+        nipopow {
+          nipopowBootstrap = {{ .Values.ergo.node.nipopow.nipopowBootstrap }}
+          p2pNipopows = {{ .Values.ergo.node.nipopow.p2pNipopows }}
+          genesisId = "{{ .Values.ergo.node.nipopow.genesisId }}"
+        }
+      }
+    }
+
+    scorex {
+      restApi {
+        publicUrl = "{{ .Values.scorex.restApi.publicUrl }}"
+        apiKeyHash = "{{ .Values.scorex.restApi.apiKeyHash }}"
+      }
+
+      network {
+        declaredAddress = "{{ .Values.scorex.network.declaredAddress }}"
+        nodeName = "{{ .Values.scorex.network.nodeName }}"
+        knownPeers = [
+        {{- range $index, $peer := .Values.scorex.network.knownPeers }}
+          "{{ $peer }}"{{- if not (eq (add1 $index) (len $.Values.scorex.network.knownPeers)) }},{{ end }}
+        {{- end }}
+        ]
+      }
+    }
