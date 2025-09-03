@@ -29,7 +29,7 @@ spec:
             - "/ergo/ergo.conf"
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-Xms{{ .Values.ergo.heapInitial | default "8G" }} -Xmx{{ .Values.ergo.heap | default "12G" }}"
+              value: "-Xms{{ .Values.ergo.heapInitial }} -Xmx{{ .Values.ergo.heap }}"
             - name: _JAVA_OPTIONS
               value: ""
           ports:
