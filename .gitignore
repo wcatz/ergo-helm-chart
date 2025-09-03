@@ -1,0 +1,17 @@
+# ignore custom values
+my-values.yaml
+
+# Ignore Helm's temporary files
+*.lock
+*.tgz
+
+# Ignore editor/IDE junk
+.idea/
+.vscode/
+*.swp
+*.bak
+*.tmp
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

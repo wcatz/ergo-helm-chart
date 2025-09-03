@@ -23,11 +23,15 @@ spec:
           command: ["java"]
           args:
             - "-jar"
-            - "-Xmx{{ .Values.ergo.heap | default "3G" }}"
             - "/home/ergo/ergo.jar"
             - "--mainnet"
             - "-c"
             - "/ergo/ergo.conf"
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms{{ .Values.ergo.heapInitial | default "8G" }} -Xmx{{ .Values.ergo.heap | default "12G" }}"
+            - name: _JAVA_OPTIONS
+              value: ""
           ports:
             - name: p2p
               containerPort: {{ .Values.service.p2pPort | default 9030 }}

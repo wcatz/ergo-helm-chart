@@ -6,6 +6,8 @@ image:
   pullPolicy: IfNotPresent
 
 ergo:
+  heapInitial: "8G"   #JVM starting heap
+  heap: "12G"         #JVM max heap
   node:
     mining: false
     extraIndex: true
@@ -22,10 +24,10 @@ ergo:
 
 scorex:
   restApi:
-    publicUrl: "http://example.com:9053"
+    publicUrl: "https://ergo-node.adamantium.online"
     apiKeyHash: "324dcf027dd4a30a932c441f365a25e86b173defa4b8e58948253471b81b72cf"
     cors:
-      - "*"
+      - "*" # for local/dev add hostnames for production!
   network:
     declaredAddress: "127.0.0.1:9030"
     nodeName: "k8s-ergo-node"
@@ -42,6 +44,6 @@ service:
 
 persistence:
   enabled: true
-  size: 50Gi
+  size: 200Gi
   accessModes:
     - ReadWriteOnce
